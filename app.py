@@ -121,6 +121,7 @@ def edit_user(pk):
     if relations_to_remove:
         sq = db.session.query(Relation.pk).filter_by(user_pk=1).filter(Relation.pk.in_(relations_to_remove)).subquery()
         Relation.query.filter(Relation.pk.in_(sq)).delete(synchronize_session="fetch")
+        db.session.commit()
     if heroes_to_add:
         heroes = Hero.query.filter(Hero.pk.in_(heroes_to_add)).all()
         for hero in heroes:
